@@ -47,10 +47,9 @@ class Hooks {
 	 * @param array $aRights
 	 */
 	public static function onUserGetRights( User $user, array &$aRights ) {
-		global $wgTitle;
 		$whitelist = GroupWhitelist::getInstance();
-		if ( $whitelist->isEnabled() && $wgTitle ) {
-			if ( $whitelist->isMatch( $user, $wgTitle ) ) {
+		if ( $whitelist->isEnabled() && \RequestContext::getMain()->getTitle() ) {
+			if ( $whitelist->isMatch( $user, \RequestContext::getMain()->getTitle() ) ) {
 				$aRights = array_merge( $aRights, $whitelist->getGrants() );
 			}
 		}
