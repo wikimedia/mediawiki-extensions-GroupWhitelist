@@ -16,15 +16,15 @@
 	"config": {
 		"GroupWhitelistRights": {
 			"description": "A list of actions to be allowed",
-			"value": []
+			"value": [ "edit" ]
 		},
 		"GroupWhitelistGroup": {
 			"description": "A group affected by the extension",
-			"value": false
+			"value": [ "user" ]
 		},
 		"GroupWhitelistSourcePage": {
 			"description": "A page to look for list of whitelisted pages",
-			"value": null
+			"value": "MediaWiki:Whitelist"
 		}
 	},
 	"Hooks": {

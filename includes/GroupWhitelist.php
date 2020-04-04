@@ -54,7 +54,7 @@ class GroupWhitelist {
 			if( $targetTitle->exists() ) {
 				$page = WikiPage::factory( $targetTitle );
 				$text = $page->getContent()->getWikitextForTransclusion();
-				$entries = explode("\n", $text);
+				$entries = $this->parseEntries( $text );
 				foreach ($entries as $entry) {
 					$t = Title::newFromText( $entry );
 					if ( $t && $t->exists() ) {
@@ -67,15 +67,38 @@ class GroupWhitelist {
 	}
 
 	/**
+	 * @param string $text
+	 *
+	 * @return array
+	 */
+	private function parseEntries( $text ) {
+		$entries = [];
+		$matches = [];
+		if ( preg_match_all('/\*\s?([^\n]+)/', $text, $matches) ) {
+			foreach ($matches[1] as $match) {
+				$entries[] = trim($match);
+			}
+		}
+		return $entries;
+	}
+
+	/**
 	 * @return int[]
 	 */
 	private function getWhitelist() {
 		$key = wfMemcKey( 'groupwhitelist', 'whitelistids' );
+		$key_touched = wfMemcKey( 'groupwhitelist', 'page_touched' );
 		$cache = wfGetCache( CACHE_ANYTHING );
+		$targetTitle = Title::newFromText( $this->config->get('GroupWhitelistSourcePage') );
+
 		$result = $cache->get( $key );
-		if ( !$result ) {
-			$result = $this->parseWhitelist();
-			$cache->set( $key, implode( ',', $result ) );
+		$touched = $cache->get( $key_touched );
+
+		if ( !$result || !$touched || $result === '' || $touched !== $targetTitle->getTouched() ) {
+			// If we have no touched stamp stored or empty page contents in cache - invalidate
+			$result = implode( ',', $this->parseWhitelist() );
+			$cache->set( $key, $result );
+			$cache->set( $key_touched, $targetTitle->getTouched() );
 		}
 		return explode( ',', $result );
 	}
