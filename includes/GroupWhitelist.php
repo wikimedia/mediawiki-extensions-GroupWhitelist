@@ -32,7 +32,7 @@ class GroupWhitelist {
 	private static $instance;
 	/** @var Config */
 	private $config;
-	/** @var int[] */
+	/** @var string|int[] */
 	private $whitelistedIds;
 
 	/**
@@ -63,9 +63,20 @@ class GroupWhitelist {
 	}
 
 	/**
-	 * @return array
-	 * @throws \MWException
+	 * @param Title $title
+	 *
+	 * @return int|string
 	 */
+	public function getArticleID( $title ) {
+		if ( $title->getNamespace() === NS_SPECIAL ) {
+			return $title->getFullText();
+		}
+		if ( !$title->exists() && $title->canExist() ) {
+			return $title->getFullText();
+		}
+		return $title->getArticleID();
+	}
+
 	private function parseWhitelist() {
 		$whitelistedIds = [];
 		if ( $this->isEnabled() ) {
@@ -76,8 +87,8 @@ class GroupWhitelist {
 				$entries = $this->parseEntries( $text );
 				foreach ( $entries as $entry ) {
 					$t = Title::newFromText( $entry );
-					if ( $t && $t->exists() ) {
-						$whitelistedIds[] = $t->getArticleID();
+					if ( $t ) {
+						$whitelistedIds[] = $this->getArticleID( $t );
 					}
 				}
 			}
@@ -151,8 +162,9 @@ class GroupWhitelist {
 		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $user->getEffectiveGroups() ) ) {
 			return false;
 		}
+
 		// Check if target page is whitelisted
-		if ( !in_array( $title->getArticleID(), $this->whitelistedIds ) ) {
+		if ( !in_array( $this->getArticleID( $title ), $this->whitelistedIds ) ) {
 			return false;
 		}
 		// Check if target action needs to be overridden

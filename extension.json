@@ -16,11 +16,13 @@
 	"config": {
 		"GroupWhitelistRights": {
 			"description": "A list of actions to be allowed",
-			"value": [ "edit" ]
+			"value": [ "edit" ],
+			"merge_strategy": "array_plus"
 		},
 		"GroupWhitelistGroup": {
 			"description": "A group affected by the extension",
-			"value": "user"
+			"value": [ "user" ],
+			"merge_strategy": "array_plus"
 		},
 		"GroupWhitelistSourcePage": {
 			"description": "A page to look for list of whitelisted pages",
