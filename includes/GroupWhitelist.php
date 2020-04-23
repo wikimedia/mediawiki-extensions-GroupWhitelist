@@ -35,7 +35,7 @@ class GroupWhitelist {
 	private $whitelistedIds;
 
 	public static function getInstance() {
-		if( !self::$instance ) {
+		if ( !self::$instance ) {
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -50,12 +50,12 @@ class GroupWhitelist {
 	private function parseWhitelist() {
 		$whitelistedIds = [];
 		if ( $this->isEnabled() ) {
-			$targetTitle = Title::newFromText( $this->config->get('GroupWhitelistSourcePage') );
-			if( $targetTitle->exists() ) {
+			$targetTitle = Title::newFromText( $this->config->get( 'GroupWhitelistSourcePage' ) );
+			if ( $targetTitle->exists() ) {
 				$page = WikiPage::factory( $targetTitle );
 				$text = $page->getContent()->getWikitextForTransclusion();
 				$entries = $this->parseEntries( $text );
-				foreach ($entries as $entry) {
+				foreach ( $entries as $entry ) {
 					$t = Title::newFromText( $entry );
 					if ( $t && $t->exists() ) {
 						$whitelistedIds[] = $t->getArticleID();
@@ -74,9 +74,9 @@ class GroupWhitelist {
 	private function parseEntries( $text ) {
 		$entries = [];
 		$matches = [];
-		if ( preg_match_all('/\*\s?([^\n]+)/', $text, $matches) ) {
-			foreach ($matches[1] as $match) {
-				$entries[] = trim($match);
+		if ( preg_match_all( '/\*\s?([^\n]+)/', $text, $matches ) ) {
+			foreach ( $matches[1] as $match ) {
+				$entries[] = trim( $match );
 			}
 		}
 		return $entries;
@@ -89,7 +89,7 @@ class GroupWhitelist {
 		$key = wfMemcKey( 'groupwhitelist', 'whitelistids' );
 		$key_touched = wfMemcKey( 'groupwhitelist', 'page_touched' );
 		$cache = wfGetCache( CACHE_ANYTHING );
-		$targetTitle = Title::newFromText( $this->config->get('GroupWhitelistSourcePage') );
+		$targetTitle = Title::newFromText( $this->config->get( 'GroupWhitelistSourcePage' ) );
 
 		$result = $cache->get( $key );
 		$touched = $cache->get( $key_touched );
@@ -108,10 +108,10 @@ class GroupWhitelist {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		if(
-			!count($this->config->get('GroupWhitelistRights')) ||
-			!$this->config->get('GroupWhitelistGroup') ||
-			!$this->config->get('GroupWhitelistSourcePage')
+		if (
+			!count( $this->config->get( 'GroupWhitelistRights' ) ) ||
+			!$this->config->get( 'GroupWhitelistGroup' ) ||
+			!$this->config->get( 'GroupWhitelistSourcePage' )
 		) {
 			return false;
 		}
@@ -123,12 +123,13 @@ class GroupWhitelist {
 	 *
 	 * @param User $user
 	 * @param Title $title
+	 * @param string|null $action
 	 *
 	 * @return bool
 	 */
 	public function isMatch( $user, $title, $action = null ) {
 		// Check if user has the target group
-		if ( !in_array( $this->config->get('GroupWhitelistGroup'), $user->getEffectiveGroups() ) ) {
+		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $user->getEffectiveGroups() ) ) {
 			return false;
 		}
 		// Check if target page is whitelisted
@@ -136,14 +137,14 @@ class GroupWhitelist {
 			return false;
 		}
 		// Check if target action needs to be overridden
-		if( $action && !in_array( $action, $this->config->get('GroupWhitelistRights') ) ) {
+		if ( $action && !in_array( $action, $this->config->get( 'GroupWhitelistRights' ) ) ) {
 			return false;
 		}
 		return true;
 	}
 
 	public function getGrants() {
-		return $this->config->get('GroupWhitelistRights');
+		return $this->config->get( 'GroupWhitelistRights' );
 	}
 
 }

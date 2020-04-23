@@ -25,10 +25,10 @@ use User;
 class Hooks {
 
 	/**
-	 * @param Title $title
-	 * @param User $user
+	 * @param Title &$title
+	 * @param User &$user
 	 * @param string $action
-	 * @param bool $result
+	 * @param bool &$result
 	 *
 	 * @return bool
 	 */
@@ -44,7 +44,7 @@ class Hooks {
 
 	/**
 	 * @param User $user
-	 * @param array $aRights
+	 * @param array &$aRights
 	 */
 	public static function onUserGetRights( User $user, array &$aRights ) {
 		$whitelist = GroupWhitelist::getInstance();
