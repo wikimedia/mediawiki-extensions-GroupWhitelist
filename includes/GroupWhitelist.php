@@ -21,6 +21,7 @@ namespace MediaWiki\Extension\GroupWhitelist;
 
 use Config;
 use MediaWiki\MediaWikiServices;
+use ObjectCache;
 use Title;
 use User;
 use WikiPage;
@@ -86,9 +87,9 @@ class GroupWhitelist {
 	 * @return int[]
 	 */
 	private function getWhitelist() {
-		$key = wfMemcKey( 'groupwhitelist', 'whitelistids' );
-		$key_touched = wfMemcKey( 'groupwhitelist', 'page_touched' );
-		$cache = wfGetCache( CACHE_ANYTHING );
+		$cache = ObjectCache::getInstance( CACHE_ANYTHING );
+		$key = $cache->makeKey( 'groupwhitelist', 'whitelistids' );
+		$key_touched = $cache->makeKey( 'groupwhitelist', 'page_touched' );
 		$targetTitle = Title::newFromText( $this->config->get( 'GroupWhitelistSourcePage' ) );
 
 		$result = $cache->get( $key );
