@@ -20,7 +20,7 @@
 		},
 		"GroupWhitelistGroup": {
 			"description": "A group affected by the extension",
-			"value": [ "user" ]
+			"value": "user"
 		},
 		"GroupWhitelistSourcePage": {
 			"description": "A page to look for list of whitelisted pages",
@@ -35,6 +35,9 @@
 		"GroupWhitelist": [
 			"i18n"
 		]
+	},
+	"ConfigRegistry": {
+		"GroupWhitelist": "GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }

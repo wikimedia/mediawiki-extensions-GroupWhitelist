@@ -35,6 +35,9 @@ class GroupWhitelist {
 	/** @var int[] */
 	private $whitelistedIds;
 
+	/**
+	 * @return GroupWhitelist
+	 */
 	public static function getInstance() {
 		if ( !self::$instance ) {
 			self::$instance = new self();
@@ -42,12 +45,27 @@ class GroupWhitelist {
 		return self::$instance;
 	}
 
+	/**
+	 * Resets the saved instance, mostly to be used in tests
+	 */
+	public static function resetInstance() {
+		if ( self::$instance ) {
+			self::$instance = null;
+		}
+	}
+
+	/**
+	 * GroupWhitelist constructor.
+	 */
 	public function __construct() {
-		$this->config = MediaWikiServices::getInstance()->getMainConfig();
-		// TODO: replace with the getWhitelist
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'GroupWhitelist' );
 		$this->whitelistedIds = $this->getWhitelist();
 	}
 
+	/**
+	 * @return array
+	 * @throws \MWException
+	 */
 	private function parseWhitelist() {
 		$whitelistedIds = [];
 		if ( $this->isEnabled() ) {
@@ -144,6 +162,9 @@ class GroupWhitelist {
 		return true;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getGrants() {
 		return $this->config->get( 'GroupWhitelistRights' );
 	}
