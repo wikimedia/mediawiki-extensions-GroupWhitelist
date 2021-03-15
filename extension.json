@@ -27,6 +27,10 @@
 		"GroupWhitelistSourcePage": {
 			"description": "A page to look for list of whitelisted pages",
 			"value": "MediaWiki:Whitelist"
+		},
+		"GroupWhitelistAPIAllow": {
+			"description": "API modules to be always granted with the right",
+			"value": []
 		}
 	},
 	"Hooks": {

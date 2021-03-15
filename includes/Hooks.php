@@ -52,14 +52,15 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function onUserGetRights( User $user, array &$aRights ) {
-		global $wgGroupWhitelistRights;
+		global $wgGroupWhitelistRights, $wgGroupWhitelistAPIAllow;
 		$title = RequestContext::getMain()->getTitle();
 		$request = RequestContext::getMain()->getRequest();
 
 		// Special case to handle most of the API requests
 		if ( defined( 'MW_API' ) && MW_API === true ) {
 			wfDebugLog( 'GroupWhitelist', 'The onUserGetRights was called by the API' );
-			if ( $request->getIP() === "127.0.0.1" ) {
+			$apiModule = $request->getVal( 'action' );
+			if ( $request->getIP() === "127.0.0.1" || in_array( $apiModule, $wgGroupWhitelistAPIAllow ) ) {
 				$aRights = array_merge( $aRights, $wgGroupWhitelistRights );
 				wfDebugLog( 'GroupWhitelist', 'Granted "read" on the "query" action' );
 				return false;
