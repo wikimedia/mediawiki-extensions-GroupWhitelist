@@ -28,11 +28,11 @@ use WikiPage;
 
 class GroupWhitelist {
 
-	/** @var GroupWhitelist */
+	/** @var GroupWhitelist|null */
 	private static $instance;
 	/** @var Config */
 	private $config;
-	/** @var string|int[] */
+	/** @var string[] */
 	private $whitelistedIds;
 
 	/**
@@ -77,6 +77,9 @@ class GroupWhitelist {
 		return $title->getArticleID();
 	}
 
+	/**
+	 * @return (string|int)[]
+	 */
 	private function parseWhitelist() {
 		$whitelistedIds = [];
 		if ( $this->isEnabled() ) {
@@ -113,7 +116,7 @@ class GroupWhitelist {
 	}
 
 	/**
-	 * @return int[]
+	 * @return string[]
 	 */
 	private function getWhitelist() {
 		$cache = ObjectCache::getInstance( CACHE_ANYTHING );
@@ -135,6 +138,7 @@ class GroupWhitelist {
 
 	/**
 	 * Is properly configured and allowed to run
+	 *
 	 * @return bool
 	 */
 	public function isEnabled() {
