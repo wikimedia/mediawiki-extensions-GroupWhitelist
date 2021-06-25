@@ -163,7 +163,13 @@ class GroupWhitelist {
 	 */
 	public function isMatch( $user, $title, $action = null ) {
 		// Check if user has the target group
-		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $user->getEffectiveGroups() ) ) {
+		if ( method_exists( MediaWikiServices::class, 'getUserGroupManager' ) ) {
+			// MW 1.35+
+			$effectiveGroups = MediaWikiServices::getInstance()->getUserGroupManager()->getUserEffectiveGroups( $user );
+		} else {
+			$effectiveGroups = $user->getEffectiveGroups();
+		}
+		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $effectiveGroups ) ) {
 			return false;
 		}
 
