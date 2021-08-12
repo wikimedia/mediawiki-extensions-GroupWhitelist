@@ -34,7 +34,7 @@
 		}
 	},
 	"Hooks": {
-		"userCan": "MediaWiki\\Extension\\GroupWhitelist\\Hooks::onUserCan",
+		"getUserPermissionsErrors": "MediaWiki\\Extension\\GroupWhitelist\\Hooks::ongetUserPermissionsErrors",
 		"UserGetRights": "MediaWiki\\Extension\\GroupWhitelist\\Hooks::onUserGetRights"
 	},
 	"MessagesDirs": {

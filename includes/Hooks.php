@@ -33,7 +33,7 @@ class Hooks {
 	 *
 	 * @return bool
 	 */
-	public static function onUserCan( &$title, &$user, $action, &$result ) {
+	public static function ongetUserPermissionsErrors( &$title, &$user, $action, &$result ) {
 		$whitelist = GroupWhitelist::getInstance();
 		if ( $whitelist->isEnabled() ) {
 			if ( $whitelist->isMatch( $user, $title, $action ) ) {
