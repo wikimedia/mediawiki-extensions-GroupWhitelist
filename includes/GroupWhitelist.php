@@ -127,7 +127,7 @@ class GroupWhitelist {
 		$result = $cache->get( $key );
 		$touched = $cache->get( $key_touched );
 
-		if ( !$result || !$touched || $result === '' || $touched !== $targetTitle->getTouched() ) {
+		if ( !$result || !$touched || $touched !== $targetTitle->getTouched() ) {
 			// If we have no touched stamp stored or empty page contents in cache - invalidate
 			$result = implode( ',', $this->parseWhitelist() );
 			$cache->set( $key, $result );
