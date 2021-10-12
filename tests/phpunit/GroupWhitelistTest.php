@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\GroupWhitelist;
 
-use MediaWikiTestCase;
+use MediaWikiIntegrationTestCase;
 use Title;
 
 /**
@@ -10,7 +10,7 @@ use Title;
  * @coverdefaultclass GroupWhitelist
  * @group Database
  */
-class GroupWhitelistTest extends MediaWikiTestCase {
+class GroupWhitelistTest extends MediaWikiIntegrationTestCase {
 
 	/** @var GroupWhitelist */
 	private $gw;
