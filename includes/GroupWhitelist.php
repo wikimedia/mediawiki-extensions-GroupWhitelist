@@ -167,6 +167,7 @@ class GroupWhitelist {
 			// MW 1.35+
 			$effectiveGroups = MediaWikiServices::getInstance()->getUserGroupManager()->getUserEffectiveGroups( $user );
 		} else {
+			// @phan-suppress-next-line PhanUndeclaredMethod
 			$effectiveGroups = $user->getEffectiveGroups();
 		}
 		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $effectiveGroups ) ) {
