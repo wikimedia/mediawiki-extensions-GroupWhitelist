@@ -1,4 +1,5 @@
 {
+	"name": "GroupWhitelist",
 	"private": true,
 	"scripts": {
 		"test": "grunt test"
