@@ -85,7 +85,12 @@ class GroupWhitelist {
 		if ( $this->isEnabled() ) {
 			$targetTitle = Title::newFromText( $this->config->get( 'GroupWhitelistSourcePage' ) );
 			if ( $targetTitle->exists() ) {
-				$page = WikiPage::factory( $targetTitle );
+				if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+					// MW 1.36+
+					$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $targetTitle );
+				} else {
+					$page = WikiPage::factory( $targetTitle );
+				}
 				$text = $page->getContent()->getWikitextForTransclusion();
 				$entries = $this->parseEntries( $text );
 				foreach ( $entries as $entry ) {
