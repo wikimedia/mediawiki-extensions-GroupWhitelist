@@ -4,5 +4,5 @@
 			"WikiWorks team"
 		]
 	},
-	"groupwhitelist-desc": "This is an example extension"
+	"groupwhitelist-desc": "Grant users from a specific group extra rights to certain pages based on an on-wiki list"
 }
