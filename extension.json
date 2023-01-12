@@ -21,8 +21,7 @@
 		},
 		"GroupWhitelistGroup": {
 			"description": "A group affected by the extension",
-			"value": [ "user" ],
-			"merge_strategy": "array_plus"
+			"value": "user"
 		},
 		"GroupWhitelistSourcePage": {
 			"description": "A page to look for list of whitelisted pages",
