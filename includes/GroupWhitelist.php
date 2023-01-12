@@ -24,7 +24,6 @@ use MediaWiki\MediaWikiServices;
 use ObjectCache;
 use Title;
 use User;
-use WikiPage;
 
 class GroupWhitelist {
 
@@ -85,12 +84,7 @@ class GroupWhitelist {
 		if ( $this->isEnabled() ) {
 			$targetTitle = Title::newFromText( $this->config->get( 'GroupWhitelistSourcePage' ) );
 			if ( $targetTitle->exists() ) {
-				if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-					// MW 1.36+
-					$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $targetTitle );
-				} else {
-					$page = WikiPage::factory( $targetTitle );
-				}
+				$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $targetTitle );
 				$text = $page->getContent()->getWikitextForTransclusion();
 				$entries = $this->parseEntries( $text );
 				foreach ( $entries as $entry ) {
@@ -168,13 +162,7 @@ class GroupWhitelist {
 	 */
 	public function isMatch( $user, $title, $action = null ) {
 		// Check if user has the target group
-		if ( method_exists( MediaWikiServices::class, 'getUserGroupManager' ) ) {
-			// MW 1.35+
-			$effectiveGroups = MediaWikiServices::getInstance()->getUserGroupManager()->getUserEffectiveGroups( $user );
-		} else {
-			// @phan-suppress-next-line PhanUndeclaredMethod
-			$effectiveGroups = $user->getEffectiveGroups();
-		}
+		$effectiveGroups = MediaWikiServices::getInstance()->getUserGroupManager()->getUserEffectiveGroups( $user );
 		if ( !in_array( $this->config->get( 'GroupWhitelistGroup' ), $effectiveGroups ) ) {
 			return false;
 		}
