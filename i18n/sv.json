@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sabelöga"
+		]
+	},
+	"groupwhitelist-desc": "Ger användare från en viss grupp extra rättigheter till vissa sidor baserat på en lista på en wikisida"
+}

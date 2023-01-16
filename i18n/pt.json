@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hamilton Abreu"
+		]
+	},
+	"groupwhitelist-desc": "Conceder aos utilizadores de um grupo específico direitos extra para certas páginas com base numa lista da wiki"
+}

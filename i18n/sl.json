@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"groupwhitelist-desc": "Podelite uporabnikom iz določene skupine dodatne pravice do določenih strani na podlagi seznama v vikiju"
+}
