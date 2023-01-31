@@ -1,0 +1,6 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"groupwhitelist-desc": "Benutzern aus einer bestimmten Gruppe zusätzliche Rechte für bestimmte Seiten auf der Grundlage einer On-Wiki-Liste gewähren"
+}

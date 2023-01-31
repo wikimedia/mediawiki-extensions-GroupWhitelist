@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Verdy p"
+		]
+	},
+	"groupwhitelist-desc": "Accorder aux utilisateurs d’un groupe spécifique des droits supplémentaires sur certaines pages en fonction d’une liste sur le wiki"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nike"
+		]
+	},
+	"groupwhitelist-desc": "Myönnä tietyn ryhmän käyttäjille lisäoikeuksia tietyille sivuille wikissä sijaitsevan luettelon perusteella"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"groupwhitelist-desc": "Aan gebruikers uit een bepaalde groep extra rechten geven over bepaalde pagina's op basis van een lijst op de wiki"
+}
