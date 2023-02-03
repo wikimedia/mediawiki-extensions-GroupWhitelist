@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hedda"
+		]
+	},
+	"groupwhitelist-desc": "Belirli bir gruptaki kullanıcılara, bir viki listesine dayalı olarak belirli sayfalar için fazladan haklar verin"
+}
