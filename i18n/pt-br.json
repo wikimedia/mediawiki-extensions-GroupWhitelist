@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardoaddad"
+		]
+	},
+	"groupwhitelist-desc": "Conceder aos usuários de um grupo específico direitos extra para certas páginas com base em uma lista da wiki"
+}
