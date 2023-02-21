@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly"
+		]
+	},
+	"groupwhitelist-desc": "依據 wiki 清單授予來自特定群組的使用者對於某些頁面的額外權限"
+}
