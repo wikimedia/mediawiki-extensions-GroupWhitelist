@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"groupwhitelist-desc": "Gi brukere fra en spesifikk gruppe ekstra rettigheter til å opprette visse sider basert på en liste på wikien"
+}
