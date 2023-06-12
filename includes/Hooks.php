@@ -49,11 +49,11 @@ class Hooks {
 	 * @param User $user
 	 * @param array &$aRights
 	 *
-	 * @return bool
+	 * @return bool|void
 	 */
 	public static function onUserGetRights( User $user, array &$aRights ) {
 		global $wgGroupWhitelistRights, $wgGroupWhitelistAPIAllow;
-		$title = RequestContext::getMain()->getTitle();
+		$titles = [ RequestContext::getMain()->getTitle() ];
 		$request = RequestContext::getMain()->getRequest();
 
 		// Special case to handle most of the API requests
@@ -62,28 +62,50 @@ class Hooks {
 			$apiModule = $request->getVal( 'action' );
 			if ( $request->getIP() === "127.0.0.1" || in_array( $apiModule, $wgGroupWhitelistAPIAllow ) ) {
 				$aRights = array_merge( $aRights, $wgGroupWhitelistRights );
-				wfDebugLog( 'GroupWhitelist', 'Granted "read" on the "query" action' );
+				wfDebugLog( 'GroupWhitelist', "Granted rights for api action=$apiModule" );
 				return false;
 			}
-			if ( $request->getVal( 'page' ) ) {
-				$title = Title::newFromText( $request->getVal( 'page' ) );
+			// Add some specific API workarounds
+			$page = $request->getVal( 'page' );
+			if (
+				$page !== null &&
+				( $apiModule === 'visualeditor' || $apiModule === 'visualeditoredit' )
+			) {
+				$titles = [ Title::newFromText( $page ) ];
 			}
-			if ( $request->getVal( 'titles' ) ) {
-				$titles = $request->getVal( 'titles' );
-				$titles = explode( '|', $titles );
-				$title = Title::newFromText( array_shift( $titles ) );
+			$titlesParam = $request->getVal( 'titles' );
+			if (
+				$titlesParam !== null &&
+				$apiModule === 'query' &&
+				strpos( $titlesParam, "\x1F" ) === false &&
+				$request->getVal( 'generator' ) === null &&
+				$request->getVal( 'pageids' ) === null &&
+				$request->getVal( 'revids' ) === null &&
+				$request->getVal( 'list' ) === null
+			) {
+				$titlesStrs = explode( '|', $titlesParam );
+				$titles = [];
+				foreach ( $titlesStrs as $titleStr ) {
+					$potentialTitle = Title::newFromText( $titleStr );
+					if ( $potentialTitle ) {
+						$titles[] = $potentialTitle;
+					}
+				}
 			}
 		}
 
 		$whitelist = GroupWhitelist::getInstance();
-		if ( $whitelist->isEnabled() && $title ) {
-			if ( $whitelist->isMatch( $user, $title ) ) {
-				$aRights = array_merge( $aRights, $whitelist->getGrants() );
-				wfDebugLog( 'GroupWhitelist', "User {$user->getName()} was granted "
-					. "with the following rights on '{$title->getPrefixedText()}': "
-					. implode( ',', $whitelist->getGrants() )
-				);
+		if ( $whitelist->isEnabled() && $titles ) {
+			foreach ( $titles as $specificTitle ) {
+				if ( !$specificTitle || !$whitelist->isMatch( $user, $specificTitle ) ) {
+					return;
+				}
 			}
+			$aRights = array_merge( $aRights, $whitelist->getGrants() );
+			wfDebugLog( 'GroupWhitelist', "User {$user->getName()} was granted "
+				. "with the following rights: "
+				. implode( ',', $whitelist->getGrants() )
+			);
 		}
 	}
 
