@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"groupwhitelist-desc": "Concede aos usuarios dun grupo específico dereitos adicionais a determinadas páxinas baseándose nunha lista do wiki"
+}
