@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Anterdc99"
+		]
+	},
+	"groupwhitelist-desc": "基于wiki列表授予来自特定用户组的用户对某些页面的额外权限"
+}
