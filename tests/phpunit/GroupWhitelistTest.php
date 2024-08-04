@@ -16,17 +16,15 @@ class GroupWhitelistTest extends MediaWikiIntegrationTestCase {
 	private $gw;
 
 	public function setUp(): void {
-		$this->setMwGlobals(
-			[
-				'wgGroupWhitelistRights' => [ 'edit' ],
-				'wgGroupWhitelistGroup' => 'user',
-				'wgGroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist'
-			]
-		);
-		$this->overrideMwServices();
 		$this->getExistingTestPage( Title::newFromText( 'TestWhitelist', NS_MEDIAWIKI ) );
 		$this->editPage( 'Mediawiki:TestWhitelist', "* TestWhitelistPage" );
 		$this->editPage( 'TestWhitelistPage', "GroupWhitelist!" );
+		$this->overrideConfigValues( [
+			'GroupWhitelistRights' => [ 'edit' ],
+			'GroupWhitelistGroup' => 'user',
+			'GroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist',
+		] );
+		$this->overrideMwServices();
 		GroupWhitelist::resetInstance();
 		$this->gw = GroupWhitelist::getInstance();
 	}
@@ -61,46 +59,38 @@ class GroupWhitelistTest extends MediaWikiIntegrationTestCase {
 	 * @covers \MediaWiki\Extension\GroupWhitelist\GroupWhitelist::isEnabled
 	 */
 	public function testIsEnabled() {
-		$this->setMwGlobals(
-			[
-				'wgGroupWhitelistRights' => [ 'edit' ],
-				'wgGroupWhitelistGroup' => 'user',
-				'wgGroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist'
-			]
-		);
+		$this->overrideConfigValues( [
+			'GroupWhitelistRights' => [ 'edit' ],
+			'GroupWhitelistGroup' => 'user',
+			'GroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist',
+		] );
 		$this->overrideMwServices();
 		GroupWhitelist::resetInstance();
 		$this->assertTrue( $this->gw->isEnabled() );
 
-		$this->setMwGlobals(
-			[
-				'wgGroupWhitelistRights' => [],
-				'wgGroupWhitelistGroup' => 'user',
-				'wgGroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist'
-			]
-		);
+		$this->overrideConfigValues( [
+			'GroupWhitelistRights' => [],
+			'GroupWhitelistGroup' => 'user',
+			'GroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist',
+		] );
 		$this->overrideMwServices();
 		GroupWhitelist::resetInstance();
 		$this->assertFalse( $this->gw->isEnabled() );
 
-		$this->setMwGlobals(
-			[
-				'wgGroupWhitelistRights' => [],
-				'wgGroupWhitelistGroup' => '',
-				'wgGroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist'
-			]
-		);
+		$this->overrideConfigValues( [
+			'GroupWhitelistRights' => [],
+			'GroupWhitelistGroup' => '',
+			'GroupWhitelistSourcePage' => 'Mediawiki:TestWhitelist',
+		] );
 		$this->overrideMwServices();
 		GroupWhitelist::resetInstance();
 		$this->assertFalse( $this->gw->isEnabled() );
 
-		$this->setMwGlobals(
-			[
-				'wgGroupWhitelistRights' => [],
-				'wgGroupWhitelistGroup' => 'user',
-				'wgGroupWhitelistSourcePage' => ''
-			]
-		);
+		$this->overrideConfigValues( [
+			'GroupWhitelistRights' => [],
+			'GroupWhitelistGroup' => 'user',
+			'GroupWhitelistSourcePage' => '',
+		] );
 		$this->overrideMwServices();
 		GroupWhitelist::resetInstance();
 		$this->assertFalse( $this->gw->isEnabled() );
