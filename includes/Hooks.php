@@ -97,6 +97,7 @@ class Hooks {
 		$whitelist = GroupWhitelist::getInstance();
 		if ( $whitelist->isEnabled() && $titles ) {
 			foreach ( $titles as $specificTitle ) {
+				// @phan-suppress-next-line PhanImpossibleConditionInLoop
 				if ( !$specificTitle || !$whitelist->isMatch( $user, $specificTitle ) ) {
 					return;
 				}

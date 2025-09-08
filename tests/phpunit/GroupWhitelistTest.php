@@ -7,7 +7,7 @@ use MediaWikiIntegrationTestCase;
 
 /**
  * Class GroupWhitelistTest
- * @coverdefaultclass GroupWhitelist
+ * @coversDefaultClass GroupWhitelist
  * @group Database
  */
 class GroupWhitelistTest extends MediaWikiIntegrationTestCase {
