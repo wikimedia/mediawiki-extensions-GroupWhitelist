@@ -21,8 +21,8 @@ namespace MediaWiki\Extension\GroupWhitelist;
 
 use Config;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use ObjectCache;
-use Title;
 use User;
 
 class GroupWhitelist {

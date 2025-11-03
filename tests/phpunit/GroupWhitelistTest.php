@@ -2,8 +2,8 @@
 
 namespace MediaWiki\Extension\GroupWhitelist;
 
+use MediaWiki\Title\Title;
 use MediaWikiIntegrationTestCase;
-use Title;
 
 /**
  * Class GroupWhitelistTest
