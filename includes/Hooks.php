@@ -19,8 +19,8 @@
 
 namespace MediaWiki\Extension\GroupWhitelist;
 
+use MediaWiki\Title\Title;
 use RequestContext;
-use Title;
 use User;
 
 class Hooks {
