@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.40.0"
+		"MediaWiki": ">= 1.41.0"
 	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\GroupWhitelist\\": "includes/"
@@ -42,7 +42,7 @@
 		]
 	},
 	"ConfigRegistry": {
-		"GroupWhitelist": "GlobalVarConfig::newInstance"
+		"GroupWhitelist": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }
