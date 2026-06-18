@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Wizzard"
+		]
+	},
+	"groupwhitelist-desc": "Udeľuje používateľom z konkrétnej skupiny ďalšie práva k určitým stránkam na základe zoznamu na wiki"
+}
